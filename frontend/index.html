@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doc Reviewer — Review Before You Sign</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1 class="logo">
+        <span class="logo-icon">📋</span>
+        Doc Reviewer
+      </h1>
+      <p class="tagline">Understand long documents before you sign</p>
+    </header>
+
+    <main class="main">
+      <section class="upload-section" id="uploadSection">
+        <div class="upload-zone" id="uploadZone">
+          <div class="upload-content">
+            <div class="upload-icon">📄</div>
+            <h2>Drop your document here</h2>
+            <p>or click to browse</p>
+            <p class="upload-formats">PDF, Word (.docx), or scanned images (PNG, JPG)</p>
+            <input type="file" id="fileInput" accept=".pdf,.docx,.png,.jpg,.jpeg,.tiff,.bmp" hidden>
+          </div>
+        </div>
+      </section>
+
+      <section class="loading-section hidden" id="loadingSection">
+        <div class="loader"></div>
+        <p>Analyzing your document…</p>
+      </section>
+
+      <section class="results-section hidden" id="resultsSection">
+        <div class="results-header">
+          <h2 id="resultFilename">Document Summary</h2>
+          <button type="button" class="btn btn-secondary" id="exportBtn">Export Summary</button>
+        </div>
+
+        <div class="summary-card">
+          <h3>Key Points</h3>
+          <ul id="summaryList" class="summary-list"></ul>
+          <p id="documentType" class="document-type"></p>
+        </div>
+
+        <div class="risks-card" id="risksCard">
+          <h3>⚠️ Flagged Risks</h3>
+          <div id="risksList" class="risks-list"></div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-block" id="newDocBtn">Analyze Another Document</button>
+      </section>
+
+      <section class="error-section hidden" id="errorSection">
+        <div class="error-content">
+          <p id="errorMessage"></p>
+          <button type="button" class="btn btn-primary" id="retryBtn">Try Again</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>For contracts, NDAs, leases & more — review with confidence</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
