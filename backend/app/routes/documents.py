@@ -12,7 +12,10 @@ router = APIRouter(prefix="/api", tags=["documents"])
 async def extract(file: UploadFile = File(...)):
     """Extract text from document. Supports PDF, Word, and scanned images."""
     data = await file.read()
-    text = extract_text(file.filename or "", data)
+    try:
+        text = extract_text(file.filename or "", data)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
     if not text or not text.strip():
         raise HTTPException(
@@ -31,7 +34,10 @@ async def extract(file: UploadFile = File(...)):
 async def analyze(file: UploadFile = File(...)):
     """Upload a document for full AI analysis: summary + flagged risks."""
     data = await file.read()
-    text = extract_text(file.filename or "", data)
+    try:
+        text = extract_text(file.filename or "", data)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
     if not text or not text.strip():
         raise HTTPException(
@@ -75,7 +81,10 @@ async def analyze_text(body: AnalyzeTextRequest):
 async def export_summary(file: UploadFile = File(...)):
     """Analyze document and return summary as downloadable text file."""
     data = await file.read()
-    text = extract_text(file.filename or "", data)
+    try:
+        text = extract_text(file.filename or "", data)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
     if not text or not text.strip():
         raise HTTPException(status_code=400, detail="No readable text found.")

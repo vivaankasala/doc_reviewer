@@ -1,11 +1,16 @@
 """
 AI analysis: summary + risk flagging for documents.
-Uses OpenAI to generate bullet-point summaries and flag unusual/risky clauses.
+Supports OpenAI and OpenRouter (openrouter.ai) APIs.
 """
 import json
 from typing import Optional
 
-from app.config import OPENAI_API_KEY, OPENAI_MODEL
+from app.config import (
+    OPENAI_API_KEY,
+    OPENAI_MODEL,
+    OPENROUTER_BASE_URL,
+    USE_OPENROUTER,
+)
 from app.schemas import DocumentSummary, FlaggedRisk
 from openai import OpenAI
 
@@ -16,8 +21,16 @@ def _get_client() -> OpenAI:
     global _client
     if _client is None:
         if not OPENAI_API_KEY:
-            raise ValueError("OPENAI_API_KEY is not set. Add it to .env")
-        _client = OpenAI(api_key=OPENAI_API_KEY)
+            raise ValueError(
+                "OPENAI_API_KEY or OPENROUTER_API_KEY is not set. Add it to .env"
+            )
+        if USE_OPENROUTER:
+            _client = OpenAI(
+                api_key=OPENAI_API_KEY,
+                base_url=OPENROUTER_BASE_URL,
+            )
+        else:
+            _client = OpenAI(api_key=OPENAI_API_KEY)
     return _client
 
 

@@ -36,12 +36,14 @@ uvicorn app.main:app --reload
 
 Open **http://localhost:8000** — the frontend is served automatically.
 
-## Optional: OCR for Scanned Docs
+## OCR for PNG / Image Uploads (Required for Screenshots)
 
-For scanned PDFs and images, install:
+PNG and image uploads use Tesseract OCR. Install it:
 
-- **macOS:** `brew install tesseract poppler`
-- **Ubuntu:** `apt install tesseract-ocr poppler-utils`
+- **macOS:** `brew install tesseract`
+- **Ubuntu:** `apt install tesseract-ocr`
+
+For scanned PDFs, also install poppler: `brew install poppler`
 
 ## Project Structure
 

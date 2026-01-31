@@ -47,15 +47,33 @@ def _extract_pdf_ocr(data: bytes) -> str:
 def _extract_image_ocr(data: bytes) -> str:
     try:
         import pytesseract
-        from PIL import Image
-    except ImportError:
-        return ""
+        from PIL import Image, ImageEnhance
+    except ImportError as e:
+        raise ValueError(
+            "Image OCR requires pytesseract and Pillow. Install: pip install pytesseract Pillow"
+        ) from e
     try:
         img = Image.open(io.BytesIO(data))
+        # Convert to RGB - PNG screenshots often have alpha, pytesseract works best with RGB
+        if img.mode in ("RGBA", "LA", "P"):
+            img = img.convert("RGBA")
+            bg = Image.new("RGB", img.size, (255, 255, 255))
+            bg.paste(img, mask=img.split()[-1])
+            img = bg
+        elif img.mode != "RGB":
+            img = img.convert("RGB")
+        # Improve OCR on screenshots: slight contrast boost
+        enhancer = ImageEnhance.Contrast(img)
+        img = enhancer.enhance(1.15)
         text = pytesseract.image_to_string(img, lang="eng")
         return _clean(text)
-    except Exception:
-        return ""
+    except Exception as e:
+        err = str(e).lower()
+        if "tesseract" in err or "not found" in err:
+            raise ValueError(
+                "Tesseract OCR is not installed. On Mac: brew install tesseract"
+            ) from e
+        raise ValueError(f"Image OCR failed: {e}") from e
 
 
 def extract_text(filename: str, data: bytes) -> str:
