@@ -10,6 +10,7 @@ const summaryList = document.getElementById("summaryList");
 const risksList = document.getElementById("risksList");
 const documentTypeEl = document.getElementById("documentType");
 const risksCard = document.getElementById("risksCard");
+const risksHeading = document.getElementById("risksHeading");
 const resultFilename = document.getElementById("resultFilename");
 const exportBtn = document.getElementById("exportBtn");
 const newDocBtn = document.getElementById("newDocBtn");
@@ -62,8 +63,9 @@ async function analyze(file) {
       : "";
 
     risksList.innerHTML = "";
+    risksCard.classList.remove("hidden");
     if (data.summary.flagged_risks?.length) {
-      risksCard.classList.remove("hidden");
+      risksHeading.textContent = "⚠️ Flagged Risks";
       data.summary.flagged_risks.forEach((r) => {
         const div = document.createElement("div");
         div.className = `risk-item risk-${r.risk_level}`;
@@ -75,7 +77,11 @@ async function analyze(file) {
         risksList.appendChild(div);
       });
     } else {
-      risksCard.classList.add("hidden");
+      risksHeading.textContent = "Risk Analysis";
+      const noRisks = document.createElement("div");
+      noRisks.className = "no-risks";
+      noRisks.innerHTML = `<span class="no-risks-icon">&#10003;</span> No unusual or risky clauses detected in this document.`;
+      risksList.appendChild(noRisks);
     }
 
     resultFilename.textContent = data.filename || "Document Summary";
