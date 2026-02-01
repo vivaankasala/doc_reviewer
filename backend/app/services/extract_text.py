@@ -10,8 +10,8 @@ from docx import Document
 
 
 def _clean(text: str) -> str:
-    text = re.sub(r"[ \t]+", " ", text)
-    text = re.sub(r"\n{3,}", "\n\n", text)
+    """Minimal clean: normalize line endings only. Preserve all spacing and layout."""
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
     return text.strip()
 
 
@@ -87,7 +87,7 @@ def extract_text(filename: str, data: bytes) -> str:
 
     if name.endswith(".docx"):
         doc = Document(io.BytesIO(data))
-        paras = [p.text for p in doc.paragraphs if p.text and p.text.strip()]
+        paras = [p.text if p.text else "" for p in doc.paragraphs]
         return _clean("\n".join(paras))
 
     if name.endswith((".png", ".jpg", ".jpeg", ".tiff", ".bmp")):

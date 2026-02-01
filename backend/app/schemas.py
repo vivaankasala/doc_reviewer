@@ -16,6 +16,7 @@ class DocumentSummary(BaseModel):
     flagged_risks: list[FlaggedRisk] = Field(default_factory=list)
     document_type: Optional[str] = Field(None, description="Detected document type")
     word_count: int = Field(0)
+    questions_to_ask: list[str] = Field(default_factory=list, description="Questions to clarify before signing")
 
 
 class AnalyzeResponse(BaseModel):

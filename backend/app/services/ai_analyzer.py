@@ -38,16 +38,18 @@ SYSTEM_PROMPT = """You are a document review assistant helping users understand 
 
 For each document:
 1. Give a clear bullet-point summary (5–12 bullets) of main points, parties, obligations, deadlines, and key terms.
-2. Flag unusual, one-sided, or risky clauses. For each: quote the clause, assign risk level (low/medium/high), explain the concern.
+2. Flag unusual, one-sided, or risky clauses. For each: quote the exact wording from the document (so it can be highlighted), assign risk level (low/medium/high), explain the concern.
 3. Identify document type if possible (e.g., lease, NDA, employment agreement). Use "Unknown" otherwise.
+4. List 3–6 specific questions the user should ask or clarify before signing (e.g., "What is the termination notice period?", "Is the liability cap negotiable?").
 
 Respond ONLY with valid JSON:
 {
   "summary": ["bullet 1", "bullet 2", ...],
   "document_type": "type or null",
   "flagged_risks": [
-    {"clause": "quote or paraphrase", "risk_level": "low|medium|high", "description": "why concerning"}
-  ]
+    {"clause": "exact quote from document", "risk_level": "low|medium|high", "description": "why concerning"}
+  ],
+  "questions_to_ask": ["question 1", "question 2", ...]
 }
 
 Be thorough but concise. Flag genuinely concerning clauses, not normal boilerplate."""
@@ -79,9 +81,11 @@ def analyze_document(text: str, model: Optional[str] = None) -> DocumentSummary:
     ]
 
     word_count = len(text.split())
+    questions = raw.get("questions_to_ask") or []
     return DocumentSummary(
         summary=raw.get("summary", []),
         flagged_risks=risks,
         document_type=raw.get("document_type"),
         word_count=word_count,
+        questions_to_ask=questions,
     )
