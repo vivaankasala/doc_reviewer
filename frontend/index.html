@@ -21,14 +21,24 @@
 
     <main class="main">
       <section class="upload-section" id="uploadSection">
-        <div class="upload-zone" id="uploadZone">
-          <div class="upload-content">
-            <div class="upload-icon">📄</div>
-            <h2>Drop your document here</h2>
-            <p>or click to browse</p>
-            <p class="upload-formats">PDF, Word (.docx), or scanned images (PNG, JPG)</p>
-            <input type="file" id="fileInput" accept=".pdf,.docx,.png,.jpg,.jpeg,.tiff,.bmp" hidden>
+        <div class="input-tabs">
+          <button type="button" class="tab-btn active" data-tab="upload">Upload file</button>
+          <button type="button" class="tab-btn" data-tab="paste">Paste text</button>
+        </div>
+        <div class="upload-panel active" id="uploadPanel">
+          <div class="upload-zone" id="uploadZone">
+            <div class="upload-content">
+              <div class="upload-icon">📄</div>
+              <h2>Drop your document here</h2>
+              <p>or click to browse</p>
+              <p class="upload-formats">PDF, Word (.docx), or scanned images (PNG, JPG)</p>
+              <input type="file" id="fileInput" accept=".pdf,.docx,.png,.jpg,.jpeg,.tiff,.bmp" hidden>
+            </div>
           </div>
+        </div>
+        <div class="paste-panel" id="pastePanel">
+          <textarea id="pasteTextarea" placeholder="Paste your document text here…" rows="10"></textarea>
+          <button type="button" class="btn btn-primary btn-block" id="analyzePasteBtn">Analyze text</button>
         </div>
       </section>
 
@@ -41,6 +51,20 @@
         <div class="results-header">
           <h2 id="resultFilename">Document Summary</h2>
           <button type="button" class="btn btn-secondary" id="exportBtn">Export Summary</button>
+        </div>
+
+        <div class="score-card" id="scoreCard">
+          <h3>Document Safety Score</h3>
+          <div class="score-gauge-wrapper">
+            <div class="score-gauge" id="scoreGauge">
+              <div class="score-gauge-fill" id="scoreGaugeFill"></div>
+              <div class="score-gauge-center">
+                <span class="score-value" id="scoreValue">—</span>
+                <span class="score-max">/ 100</span>
+              </div>
+            </div>
+            <p class="score-label" id="scoreLabel">Review score</p>
+          </div>
         </div>
 
         <div class="summary-card">

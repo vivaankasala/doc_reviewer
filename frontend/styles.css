@@ -72,6 +72,68 @@ body {
   margin-bottom: 2rem;
 }
 
+.input-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.tab-btn {
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover {
+  color: var(--text);
+}
+
+.tab-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.upload-panel,
+.paste-panel {
+  display: none;
+}
+
+.upload-panel.active,
+.paste-panel.active {
+  display: block;
+}
+
+.paste-panel textarea {
+  width: 100%;
+  padding: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  resize: vertical;
+  margin-bottom: 1rem;
+}
+
+.paste-panel textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.paste-panel textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
 .upload-zone {
   border: 2px dashed var(--border);
   border-radius: 12px;
@@ -169,6 +231,78 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* Score gauge */
+.score-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.score-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.score-gauge-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.score-gauge {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-gauge-fill {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: conic-gradient(var(--risk-low) 0deg 0deg, var(--border) 0deg 360deg);
+  transition: background 0.5s ease;
+}
+
+.score-gauge-center {
+  position: relative;
+  z-index: 1;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.score-value {
+  color: var(--text);
+}
+
+.score-max {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-left: 0.1rem;
+}
+
+.score-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
 }
 
 .summary-card,
