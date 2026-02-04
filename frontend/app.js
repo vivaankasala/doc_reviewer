@@ -45,7 +45,7 @@ const pasteTextarea = document.getElementById("pasteTextarea");
 const analyzePasteBtn = document.getElementById("analyzePasteBtn");
 
 // Theme
-const savedTheme = localStorage.getItem("doc-reviewer-theme") || "light";
+const savedTheme = localStorage.getItem("doc-reviewer-theme") || "dark";
 document.documentElement.setAttribute("data-theme", savedTheme);
 
 themeToggle?.addEventListener("click", () => {
